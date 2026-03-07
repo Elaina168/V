@@ -96,13 +96,13 @@ function submit() {
   }
 
   console.log({
-    text: memeText.value,
+    text: memeText1.value,
     tags: selectedTags.value
   });
 
   toast("投稿成功（演示）");
 
-  memeText.value = "";
+  memeText1.value = "";
   selectedTags.value = [];
 }
 
@@ -237,8 +237,7 @@ function submit() {
 
 <!-- 投稿按钮 -->
 <button
-  class="submit"
-  @click="submit"
+  type="button" class="submit" @click="submit"
 >
 投稿
 </button>
