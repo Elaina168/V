@@ -50,6 +50,55 @@ body {
   background-size: cover;
 }
 
+.toast{
+
+  position:fixed;
+
+  top:80px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  background:#2ecc71;
+  color:white;
+
+  padding:10px 22px;
+
+  border-radius:10px;
+
+  font-size:14px;
+
+  box-shadow:0 6px 20px rgba(0,0,0,0.2);
+
+  animation:toastMove 2s;
+
+  z-index:9999;
+
+}
+
+@keyframes toastMove{
+
+  0%{
+    opacity:0;
+    transform:translate(-50%,-20px);
+  }
+
+  15%{
+    opacity:1;
+    transform:translate(-50%,0);
+  }
+
+  85%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:0;
+    transform:translate(-50%,-20px);
+  }
+
+}
+
 .layout {
   display: flex;
   flex-direction: column;
@@ -260,6 +309,95 @@ body {
 .meme-info{
   font-size:12px;
   color:#888;
+}
+
+/* 已选标签 */
+.selected{
+  margin-bottom:10px;
+}
+
+.selected-tag{
+  background:#409eff;
+  color:white;
+  cursor:pointer;
+}
+
+
+/* 搜索框 */
+.tag-search{
+  margin-bottom:10px;
+}
+
+.tag-search input{
+  margin-left:10px;
+  padding:6px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+
+/* 标签列表 */
+.tag-list{
+  margin-bottom:15px;
+}
+
+.tag{
+  display:inline-block;
+  padding:5px 10px;
+  margin:5px;
+  background:#eee;
+  border-radius:15px;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.tag:hover{
+  background:#ddd;
+}
+
+
+/* 输入框 */
+.text-box{
+  position:relative;
+}
+
+textarea{
+  width:100%;
+  height:100px;
+  resize:none;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+/* 字数统计 */
+.count{
+  position:absolute;
+  right:10px;
+  bottom:8px;
+  font-size:12px;
+  color:#666;
+}
+
+
+/* 投稿按钮 */
+.submit{
+
+  margin-top:10px;
+
+  background:#2ecc71;
+  color:white;
+
+  border:none;
+  padding:10px 20px;
+
+  border-radius:10px;
+
+  cursor:pointer;
+}
+
+.submit:hover{
+  background:#27ae60;
 }
 
 .home-layout {

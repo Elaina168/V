@@ -1,15 +1,32 @@
 <script setup>
+import { ref, computed } from "vue";
+
+// 基础数据
 const siteName = "vfamily.cn"
 const memeCount = 17929
 const lastSubmitTime = "2026-03-04 04:20:27"
 const latestMeme = "原来你们说的加一是点+1啊 不是点回复 难怪@一堆人😂"
 
+
+
 function copyMeme() {
   navigator.clipboard.writeText(latestMeme)
-  alert("已复制烂梗")
+  toast("已复制烂梗")
 }
 
-import { ref } from "vue"
+const toastMessage = ref("")
+const showToast = ref(false)
+
+function toast(msg){
+
+  toastMessage.value = msg
+  showToast.value = true
+
+  setTimeout(()=>{
+    showToast.value = false
+  },2000)
+
+}
 
 const memeText = ref("玩神，我开发的黑神话悟空还玩吗今年？")
 
@@ -19,22 +36,76 @@ const memeTime = ref("2024-11-11")
 
 function copyMeme1(){
   navigator.clipboard.writeText(memeText.value)
-  alert("已复制烂梗")
+  toast("已复制烂梗")
 }
 
 function changeMeme(){
-  alert("这里以后接随机API")
+  toast("这里以后接随机API")
 }
-const boxText2 = `可选标签 
-已选标签:
-暂无已选标签(点击下面标签进行筛选)
-所有标签:
 
-喷玩机器
 
-喷选手
-输入你要投稿的烂梗....
-0 / 255`
+/* 标签库 */
+const tags = [
+  "经典烂梗",
+  "V圈",
+  "梗小鬼",
+  "直播事故",
+  "历史名场面",
+  "切片",
+  "评论区",
+  "粉丝发癫"
+];
+
+/* 搜索 */
+const search = ref("");
+
+/* 已选标签 */
+const selectedTags = ref([]);
+
+/* 投稿内容 */
+const memeText1 = ref("");
+
+/* 模糊搜索 */
+const filteredTags = computed(() => {
+  if (!search.value) return tags;
+
+  return tags.filter(tag =>
+    tag.includes(search.value)
+  );
+});
+
+/* 选择标签 */
+function addTag(tag) {
+  if (!selectedTags.value.includes(tag)) {
+    selectedTags.value.push(tag);
+  }
+}
+
+/* 删除标签 */
+function removeTag(tag) {
+  selectedTags.value =
+    selectedTags.value.filter(t => t !== tag);
+}
+
+/* 投稿 */
+function submit() {
+
+  if (!memeText.value.trim()) {
+    toast("请输入烂梗内容");
+    return;
+  }
+
+  console.log({
+    text: memeText.value,
+    tags: selectedTags.value
+  });
+
+  toast("投稿成功（演示）");
+
+  memeText.value = "";
+  selectedTags.value = [];
+}
+
 </script>
 <template>
   <div class="home-layout">
@@ -72,10 +143,6 @@ const boxText2 = `可选标签
          </span>
         </p>
 
-         <p>
-          <span class="link">网站更新日志</span>
-        </p>
-
       </div>
 
       <div class="box">
@@ -83,7 +150,7 @@ const boxText2 = `可选标签
         <!-- 标题 -->
         <div class="meme-header">
         <span class="meme-title">
-        随机一条烂梗(直接点击也能复制)
+        随机一条烂梗(直接点击复制)
         </span>
 
         <span class="change" @click="changeMeme">
@@ -108,7 +175,74 @@ const boxText2 = `可选标签
 
       </div>
 
-      <div class="box">{{ boxText2 }}</div>
+      <div class="box">
+        <h3>投稿烂梗</h3>
+
+<!-- 已选标签 -->
+<div class="selected">
+  已选标签：
+  <span
+    v-for="tag in selectedTags"
+    :key="tag"
+    class="tag selected-tag"
+    @click="removeTag(tag)"
+  >
+    {{ tag }} ×
+  </span>
+</div>
+
+
+<!-- 搜索标签 -->
+<div class="tag-search">
+
+  <label>搜索标签：</label>
+
+  <input
+    v-model="search"
+    placeholder="输入标签关键词..."
+  />
+
+</div>
+
+<!-- 搜索结果 -->
+<div class="tag-list">
+
+  <span
+    v-for="tag in filteredTags"
+    :key="tag"
+    class="tag"
+    @click="addTag(tag)"
+  >
+    {{ tag }}
+  </span>
+
+</div>
+
+
+<!-- 输入框 -->
+<div class="text-box">
+
+  <textarea
+    v-model="memeText1"
+    maxlength="100"
+    placeholder="请输入你要投稿的烂梗..."
+  ></textarea>
+
+  <div class="count">
+    {{ memeText1.length }}/100
+  </div>
+
+</div>
+
+
+<!-- 投稿按钮 -->
+<button
+  class="submit"
+  @click="submit"
+>
+投稿
+</button>
+      </div>
     </div>
 
     <!-- 右侧传送带 -->
@@ -122,4 +256,9 @@ const boxText2 = `可选标签
     </div>
 
   </div>
+
+<div v-if="showToast" class="toast">
+  {{ toastMessage }}
+</div>
+
 </template>
