@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 </script>
 
 <template>
@@ -21,7 +20,7 @@ import { ref } from 'vue';
         <span>点赞</span>
         <span>用户</span>
       </div>
-     </header>
+    </header>
 
     <!-- 主体 -->
     <div class="main">
@@ -47,55 +46,6 @@ body {
   font-family: Arial, sans-serif;
   background: url("/src/assets/bg.jpg") no-repeat center center fixed;
   background-size: cover;
-}
-
-.toast{
-
-  position:fixed;
-
-  top:80px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  background:#2ecc71;
-  color:white;
-
-  padding:10px 22px;
-
-  border-radius:10px;
-
-  font-size:14px;
-
-  box-shadow:0 6px 20px rgba(0,0,0,0.2);
-
-  animation:toastMove 2s;
-
-  z-index:9999;
-
-}
-
-@keyframes toastMove{
-
-  0%{
-    opacity:0;
-    transform:translate(-50%,-20px);
-  }
-
-  15%{
-    opacity:1;
-    transform:translate(-50%,0);
-  }
-
-  85%{
-    opacity:1;
-  }
-
-  100%{
-    opacity:0;
-    transform:translate(-50%,-20px);
-  }
-
 }
 
 .layout {
@@ -183,11 +133,13 @@ body {
   color: inherit;
   transition: all 0.2s ease;
   border-radius: 15%;
+  font-weight: bold;
 }
 
 .sidebar a:hover {
   background: #1f1f1f;
   color: white;
+  font-weight: bold;
 }
 
 .sidebar .router-link-active {
@@ -204,240 +156,6 @@ body {
   background: transparent;
   min-height: 1500px;
   border-radius: 15px;
-}
-
-.banner {
-  
-  width: 20%;        /* 控制大小 */
-  display: block;    /* 让它变成块级元素 */
-  margin: 20px auto; /* 上下30px，左右自动居中 */
-  border-radius: 10px;
-}
-
-.intro,
-.box {
-  white-space: pre-wrap;
-  margin-bottom: 20px;
-  padding: 20px;
-  width: 100%;
-  background: rgba(255,255,255,0.85);
-  border-radius: 12px;
-}
-
-.intro p{
-  margin-bottom: 12px;
-  line-height: 1.7;
-}
-
-/* 网站名 */
-.site{
-  color:#ff3b3b;
-  font-size:20px;
-  font-weight:bold;
-}
-
-/* 蓝色链接 */
-.link{
-  color:#409eff;
-  cursor:pointer;
-}
-
-.link:hover{
-  text-decoration:underline;
-}
-
-/* 绿色数字 */
-.green{
-  color:#2ecc71;
-  font-weight:bold;
-}
-
-/* 可复制文本 */
-.copy{
-  cursor:pointer;
-  color:#555;
-}
-
-.copy:hover{
-  color:#000;
-}
-
-/* 标题行 */
-.meme-header{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:15px;
-}
-
-.meme-title{
-  font-weight:bold;
-  font-size:16px;
-}
-
-.change{
-  color:#409eff;
-  cursor:pointer;
-}
-
-.change:hover{
-  text-decoration:underline;
-}
-
-/* 烂梗内容 */
-.meme-content{
-  color:#409eff;
-  font-size:18px;
-  margin-bottom:15px;
-  cursor:pointer;
-}
-
-/* 标签 */
-.meme-tags{
-  margin-bottom:10px;
-}
-
-.tag{
-  display:inline-block;
-  padding:4px 10px;
-  background:#f2f2f2;
-  border-radius:15px;
-  font-size:12px;
-}
-
-/* 投稿信息 */
-.meme-info{
-  font-size:12px;
-  color:#888;
-}
-
-/* 已选标签 */
-.selected{
-  margin-bottom:10px;
-}
-
-.selected-tag{
-  background:#409eff;
-  color:white;
-  cursor:pointer;
-}
-
-
-/* 搜索框 */
-.tag-search{
-  margin-bottom:10px;
-}
-
-.tag-search input{
-  margin-left:10px;
-  padding:6px;
-  border-radius:6px;
-  border:1px solid #ccc;
-}
-
-
-/* 标签列表 */
-.tag-list{
-  margin-bottom:15px;
-}
-
-.tag{
-  display:inline-block;
-  padding:5px 10px;
-  margin:5px;
-  background:#eee;
-  border-radius:15px;
-  font-size:12px;
-  cursor:pointer;
-}
-
-.tag:hover{
-  background:#ddd;
-}
-
-
-/* 输入框 */
-.text-box{
-  position:relative;
-}
-
-textarea{
-  width:100%;
-  height:100px;
-  resize:none;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
-
-/* 字数统计 */
-.count{
-  position:absolute;
-  right:10px;
-  bottom:8px;
-  font-size:12px;
-  color:#666;
-}
-
-
-/* 投稿按钮 */
-.submit{
-
-  margin-top:10px;
-
-  background:#2ecc71;
-  color:white;
-
-  border:none;
-  padding:10px 20px;
-
-  border-radius:10px;
-
-  cursor:pointer;
-}
-
-.submit:hover{
-  background:#27ae60;
-}
-
-.home-layout {
-  display: flex;
-  justify-content: space-between; 
-  padding: 20px;
-}
-
-.home-left {
-  flex: 1;
-  max-width: 1100px;
-}
-
-.home-right {
-  width: 200px;
-  height: 700px;
-  overflow: hidden;
-  margin-top: 20px;
-  margin-left: 1200px;
-  border-radius: 15px;
-  position: fixed;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(8px);
-}
-
-/* 传送带 */
-.scroll-box {
-  display: flex;
-  flex-direction: column;
-  animation: scrollUp 10s linear infinite;
-}
-
-.scroll-box img {
-  width: 100%;
-  margin-bottom: 15px;
-  border-radius: 10px;
-}
-
-@keyframes scrollUp {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-50%); }
 }
 
 </style>
