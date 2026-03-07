@@ -18,7 +18,7 @@ const currentPage = ref('home');
       </div>
 
       <div class="nav-right">
-        <span>上传烂梗</span>
+        <span>上传建议/BUG</span>
         <span>点赞</span>
         <span>用户</span>
       </div>
@@ -176,6 +176,92 @@ body {
   border-radius: 12px;
 }
 
+.intro p{
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+
+/* 网站名 */
+.site{
+  color:#ff3b3b;
+  font-size:20px;
+  font-weight:bold;
+}
+
+/* 蓝色链接 */
+.link{
+  color:#409eff;
+  cursor:pointer;
+}
+
+.link:hover{
+  text-decoration:underline;
+}
+
+/* 绿色数字 */
+.green{
+  color:#2ecc71;
+  font-weight:bold;
+}
+
+/* 可复制文本 */
+.copy{
+  cursor:pointer;
+  color:#555;
+}
+
+.copy:hover{
+  color:#000;
+}
+
+/* 标题行 */
+.meme-header{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.meme-title{
+  font-weight:bold;
+  font-size:16px;
+}
+
+.change{
+  color:#409eff;
+  cursor:pointer;
+}
+
+.change:hover{
+  text-decoration:underline;
+}
+
+/* 烂梗内容 */
+.meme-content{
+  color:#409eff;
+  font-size:18px;
+  margin-bottom:15px;
+  cursor:pointer;
+}
+
+/* 标签 */
+.meme-tags{
+  margin-bottom:10px;
+}
+
+.tag{
+  display:inline-block;
+  padding:4px 10px;
+  background:#f2f2f2;
+  border-radius:15px;
+  font-size:12px;
+}
+
+/* 投稿信息 */
+.meme-info{
+  font-size:12px;
+  color:#888;
+}
+
 .home-layout {
   display: flex;
   justify-content: space-between; 
@@ -184,16 +270,17 @@ body {
 
 .home-left {
   flex: 1;
-  max-width: 1300px;
+  max-width: 1100px;
 }
 
 .home-right {
   width: 200px;
-  height: 600px;
+  height: 700px;
   overflow: hidden;
-  position: relative;
-
+  margin-top: 20px;
+  margin-left: 1200px;
   border-radius: 15px;
+  position: fixed;
   background: rgba(255,255,255,0.1);
   backdrop-filter: blur(8px);
 }
