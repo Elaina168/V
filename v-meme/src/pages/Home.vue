@@ -1,16 +1,37 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 
 // 基础数据
-const memeCount = ref(17929); /* 烂梗总数 */
-const lastSubmitTime = ref("2026-03-04 04:20:27");
-const latestMeme = ref("原来你们说的加一是点+1啊 不是点回复 难怪@一堆人😂");
+const memeCount = ref(0); /* 烂梗总数 */
+const lastSubmitTime = ref("");
+const latestMeme = ref("");
+
+async function fetchStats() {
+  const res = await fetch("http://localhost:3000/api/stats");
+  const stats = await res.json();
+  memeCount.value = stats.memeCount;
+  lastSubmitTime.value = stats.lastSubmitTime;
+}
+
+async function fetchLatestMeme() {
+  const res = await fetch("http://localhost:3000/api/latest");
+  const data = await res.json();
+  latestMeme.value = data.text || "暂无烂梗";
+}
+
+// 页面加载时调用
+onMounted(() => {
+  fetchStats();
+  fetchLatestMeme();
+  changeMeme(); // 页面打开就显示一条随机烂梗
+})
+
 const toastMessage = ref("");
 const showToast = ref(false);
-const memeText = ref("玩神，我开发的黑神话悟空还玩吗今年？");
-const memeTag = ref("喷玩机器");
-const memeId = ref(1412);
-const memeTime = ref("2024-11-11");
+const memeText = ref("");
+const memeTag = ref("");
+const memeId = ref("");
+const memeTime = ref("");
 
 const tags = [
   "经典烂梗",
@@ -27,8 +48,8 @@ const search = ref("");/* 搜索 */
 const selectedTags = ref([]);/* 已选标签 */
 const memesubmit = ref("");/* 投稿内容 */
 
-function copyMeme() {
-  navigator.clipboard.writeText(latestMeme)
+function copyText(text) {
+  navigator.clipboard.writeText(text)
   toast("已复制烂梗")
 }
 
@@ -40,8 +61,17 @@ function toast(msg){
   },2000)
 }
 
-function changeMeme(){
-  toast("这里以后接随机API")
+async function changeMeme(){
+
+  const res = await fetch("http://localhost:3000/api/random")
+
+  const data = await res.json()
+
+  memeText.value = data.text
+  memeTag.value = data.tag
+  memeId.value = data.id
+  memeTime.value = data.time
+
 }
 
 /* 模糊搜索 */
@@ -67,17 +97,37 @@ function removeTag(tag) {
 }
 
 /* 投稿 */
-function submit() {
+async function submit(){
 
   if (!memesubmit.value.trim()) {
-    toast("请输入烂梗内容");
-    return;
+    toast("请输入烂梗内容")
+    return
   }
 
-  toast("投稿成功（演示）");
+  const res = await fetch("http://localhost:3000/api/submit",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      text:memesubmit.value,
+      tag:selectedTags.value.join(",")
+    })
+  })
 
-  memesubmit.value = "";
-  selectedTags.value = [];
+  const data = await res.json()
+
+  if (data.success) {
+    toast("投稿成功");
+    memesubmit.value = "";
+    selectedTags.value = [];
+
+    // 投稿成功后刷新统计和最新烂梗
+    fetchStats();
+    fetchLatestMeme();
+  } else {
+    toast(data.message || "投稿失败");
+  }
 }
 
 </script>
@@ -111,7 +161,7 @@ function submit() {
 
         <p>
          最新投稿烂梗(点击可复制)：
-         <span class="copy" @click="copyMeme">{{ latestMeme }}</span>
+         <span class="copy" @click="copyText(latestMeme)"> {{ latestMeme }}</span>
         </p>
 
       </div>
@@ -130,7 +180,7 @@ function submit() {
         </div>
 
        <!-- 烂梗内容 -->
-       <div class="meme-content" @click="copyMeme">
+       <div class="meme-content" @click="copyText(memeText)">
          {{ memeText }}
        </div>
 
@@ -200,6 +250,10 @@ function submit() {
       </div>
     </div>
 
+    <div class="home-middle">
+      <span>这里以后放关键词云</span>
+    </div>
+
     <!-- 右侧传送带 -->
     <div class="home-right">
       <div class="scroll-box">
@@ -221,6 +275,17 @@ function submit() {
 </template>
 
 <style scoped>
+
+.home-middle{
+  width: 200px;
+  height: 700px;
+  margin-top:20px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
+  position:fixed;
+  right:240px;
+}
 
 .toast{
   position:fixed;
@@ -299,7 +364,7 @@ function submit() {
   height: 700px;
   overflow: hidden;
   margin-top: 20px;
-  margin-left: 1200px;
+  right: 20px;
   border-radius: 15px;
   position: fixed;
   background: rgba(255,255,255,0.1);
@@ -362,7 +427,7 @@ function submit() {
 /* 烂梗内容 */
 .meme-content{
   color:#409eff;
-  font-size:18px;
+  font-size:30px;
   margin-bottom:15px;
   cursor:pointer;
 }
@@ -417,6 +482,7 @@ function submit() {
 /* 标签列表 */
 .tag-list{
   margin-bottom:15px;
+  cursor: pointer;
 }
 
 /* 输入框 */

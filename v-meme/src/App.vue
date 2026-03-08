@@ -1,4 +1,23 @@
 <script setup>
+
+import { watch } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+// 定义需要滚动到顶部的路由路径
+const scrollRoutes = ["/", "/all", "/disclaimer"];
+
+// 监听路由变化，包括初始加载时，如果是指定页面则滚动到顶部
+watch(() => route.path, (newPath) => {
+  if (scrollRoutes.includes(newPath)) {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+}, { immediate: true });
+
 </script>
 
 <template>
